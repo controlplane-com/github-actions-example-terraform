@@ -1,6 +1,8 @@
 # Control Plane - GitHub Actions Example Using Terraform
 
-This example demonstrates how to build and deploy your application to Control Plane using Terraform as part of a CI/CD pipeline. It can be used as a template for your applications.
+This example demonstrates how to build and deploy your application to Control Plane using Terraform as part of a CI/CD pipeline. 
+
+It can be used as a template for your applications.
 
 ## Script Overview
 
@@ -34,10 +36,10 @@ The example uses `Terraform Cloud` to store the state file. Follow these instruc
 
 - Create a organization and add one or more workspaces. The name of the workspace should have the same prefix (e.g., cpln-dev, cpln-prod).
 
+- Set the execution mode to `local` in the general settings.
+
 - In the `/terraform/terraform.tf` file, update the `organization` name and `workspaces` block . The `prefix` value will be prepended
 to the input's Terraform workspace variable. This can be used to deploy to multiple environments, each of them having their own state file.
-
-- Set the execution mode to `local` in the general settings.
 
 ## Resources to Create/Update
 
@@ -50,7 +52,7 @@ to the input's Terraform workspace variable. This can be used to deploy to multi
     - `TERRAFORM_CLOUD_TOKEN`: Terraform Cloud Token
 
 - Review and update the `.github/workflows/deploy-to-control-plane.yml` file:
-  - Line 9: Uncomment and update with the action (e.g., push, pull request, etc.) and branch names (e.g., dev, main, etc.) this workflow will trigger on.
+  - Line 8 and 9: Uncomment and update with the action (e.g., push, pull request, etc.) and branch names (e.g., dev, main, etc.) this workflow will trigger on.
   - Lines 33 and 46: Update the branch names to match line 9.
   - Lines 36 and 49: Update ORG_NAME.
   - Lines 41 and 54: Update IMAGE_NAME_DEV_BRANCH and IMAGE_NAME_MAIN_BRANCH. The action will append the short SHA of the commit when pushing the image to the org's private image repository.
