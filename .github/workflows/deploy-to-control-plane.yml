@@ -68,7 +68,7 @@ jobs:
         shell: bash
         working-directory: ./terraform
         run: |
-          sed -i 's/1/${{ secrets.TERRAFORM_CLOUD_TOKEN }}/' .terraformrc
+          sed -i 's/1/${{ secrets.TF_CLOUD_TOKEN }}/' .terraformrc
 
       # Install the latest version of Terraform CLI
       - name: Set up Terraform

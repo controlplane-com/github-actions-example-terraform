@@ -3,6 +3,7 @@
 name: CI-Action
 description: Control Plane Action
 
+# Add the input variables needed by the action
 inputs:
   org:
     description: 'Control Plane Org'
@@ -48,12 +49,23 @@ runs:
     - name: Set Environment Variables For Control Plane and Terraform
       shell: bash
       run: |
+
+        # The `CPLN_ORG` and `CPLN_TOKEN` variables are used by the Control Plane CLI.
         echo "CPLN_ORG=${{inputs.org}}" >> $GITHUB_ENV
         echo "CPLN_TOKEN=${{inputs.token}}" >> $GITHUB_ENV
+
+        # The 'TF_VAR_' variables are used by the Terraform script (e.g., the TF_VAR_org variable corresponds to the org variable).
         echo "TF_VAR_org=${{inputs.org}}" >> $GITHUB_ENV
         echo "TF_VAR_token=${{inputs.token}}" >> $GITHUB_ENV
         echo "TF_VAR_gvc=${{inputs.gvc}}" >> $GITHUB_ENV
         echo "TF_VAR_workload=${{inputs.workload}}" >> $GITHUB_ENV
+
+        # Set as an environment variable the image name and tag that will be pushed to the org's private repository.
+        # The tag will be the short SHA of the commit.
         echo "TF_VAR_image=${{inputs.image}}:${{inputs.tag}}" >> $GITHUB_ENV
+        
+        # Set the Terraform workspace name without the prefix.
         echo "TF_WORKSPACE=${{inputs.terraform_workspace}}" >> $GITHUB_ENV
+
+        # Set the location of the Terraform credentials file. The sed command in the workflow will set the token.
         echo "TF_CLI_CONFIG_FILE=${{ github.workspace }}/terraform/.terraformrc" >> $GITHUB_ENV
