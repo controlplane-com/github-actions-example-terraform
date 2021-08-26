@@ -2,6 +2,8 @@
 
 This example demonstrates how to build and deploy an application to Control Plane using Terraform as part of a CI/CD pipeline. 
 
+The sample application is a Node.js web application that will display the environment variables that exist in the running container and the arguments that were used when executing the container. A sample Dockerfile is included to assist in the building of the container.
+
 Terraform requires the current state be persisted between deployments. This example uses [Terraform Cloud](https://app.terraform.io/) to manage the state.
 
 This example is provided as a starting point and your own unique delivery and/or deployment requirements will dictate the steps needed in your situation.

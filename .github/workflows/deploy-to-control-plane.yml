@@ -59,9 +59,9 @@ jobs:
         if: ${{ github.event.inputs.apply == 'true' }}
         shell: bash
         run: |
+          cpln profile update default --token ${{ secrets.CPLN_TOKEN }}
           cpln image docker-login
-          docker build -t ${CPLN_ORG}.registry.cpln.io/${{ env.TF_VAR_image }} .
-          docker push ${CPLN_ORG}.registry.cpln.io/${{ env.TF_VAR_image }}
+          cpln image build --name ${TF_VAR_image} --dockerfile ./Dockerfile --push
 
       - name: Set Terraform Cloud Token
         id: terraform_token
