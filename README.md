@@ -2,7 +2,7 @@
 
 This example demonstrates how to build and deploy an application to Control Plane using Terraform as part of a CI/CD pipeline. 
 
-The sample application is a Node.js web application that will display the environment variables that exist in the running container and the arguments that were used when executing the container. A sample Dockerfile is included to assist in the building of the container.
+The sample application is a Node.js web application that will display the environment variables that exist in the running container and the arguments that were used when executing the container. A sample Dockerfile is included.
 
 Terraform requires the current state be persisted between deployments. This example uses [Terraform Cloud](https://app.terraform.io/) to manage the state.
 
@@ -36,18 +36,35 @@ The Terraform provider and Control Plane CLI require a `Service Account` with th
 
 ## GitHub Set Up
 
-The example require the following variables be added as a secret:
-
-- `CPLN_TOKEN`: Service Account Key
-- `TF_CLOUD_TOKEN`: Terraform Cloud Token
+The example require the following variables be added as a secret.
 
 Browse to the Secrets page by clicking `Settings` (top menu bar), then `Secrets` (left menu bar).
+
+- `CPLN_ORG`: Control Plane org.
+- `CPLN_TOKEN`: Service Account Key.
+
+
+- `CPLN_GVC_DEV`: The name of the GVC for the `dev` branch.
+- `CPLN_WORKLOAD_DEV`: The name of the workload for the `dev` branch.
+- `CPLN_IMAGE_NAME_DEV`: The name of the image that will be deployed for the `dev` branch. The workflow will append the short SHA of the commit when pushing the image to the org's private image repository.
+- `TF_WORKSPACE_DEV`: The Terraform workspace name for the `dev` branch. **Do not include the common prefix used when setting up the workspace in the `Terraform Cloud Set Up` section.**
+
+
+- `CPLN_GVC_MAIN`: The name of the GVC for the `main` branch.
+- `CPLN_WORKLOAD_MAIN`: The name of the workload for the `main` branch.
+- `CPLN_IMAGE_NAME_MAIN`: The name of the image that will be deployed for the `main` branch. The workflow will append the short SHA of the commit when pushing the image to the org's private image repository.  
+- `TF_WORKSPACE_MAIN`: The Terraform workspace name for the `main` branch. **Do not include the common prefix used when setting up the workspace in the `Terraform Cloud Set Up` section.**
+
+
+- `TF_PROVIDER_VERSION`: The version number of the Control Plane Terraform Provider (Current version is: 1.0.1).
+- `TF_CLOUD_TOKEN`: Terraform Cloud Authentication Token.
+
 
 ## Example Overview and Set Up
 
 When triggered, the GitHub action will execute the steps defined in the workload file located at `.github/workflow/deploy-to-control-plane.yml`. The workflow will generate a Terraform plan based on the HCL in the `/terraform/terrafrom.tf` file. The HCL will create/update a GVC and workload hosted at Control Plane. After the plan has been reviewed, the action needs to be manually triggered with the apply flag set to true. This apply flag will execute the steps that will containerize and push the application to the org's private image repository and apply the Terraform plan. 
 
-The action file `.github/actions/inputs/action.yml`, is used by the workflow file to configure the pipeline based on the branch and input variables. This can be used to deploy multiple branches as individual GVCs/workloads to Control Plane.
+The action file `.github/actions/inputs/action.yml`, is used by the workflow file to configure the pipeline based on the branch and input variables (which are configured as repository secrets). This can be used to deploy multiple branches as individual GVCs/workloads to Control Plane.
 
 **The action will:**
 - Install the Control Plane CLI.
@@ -72,10 +89,6 @@ The action sets the environment variables used by the variables in the Terraform
 2. Review and update the `.github/workflows/deploy-to-control-plane.yml` file:
     - Line 9: Uncomment and update with the action (e.g., push, pull request, etc.) and branch names (e.g., dev, main, etc.) this workflow will trigger on.
     - Lines 33 and 46: Update the branch names to match line 9.
-    - Lines 36 and 49: Update ORG_NAME.
-    - Lines 41 and 54: Update IMAGE_NAME_DEV_BRANCH and IMAGE_NAME_MAIN_BRANCH. The action is set to append the short SHA of the commit when pushing the image to the org's private image repository.
-    - Lines 39/40 and 52/53: Update the GVC and workspace name.
-    - Lines 43 and 56: Update the Terraform workspace name. Do not include the common prefix.
 
 3. Update the Terraform HCL file located at `/terraform/terraform.tf` using the values that were created in the `Terraform Cloud Set Up` section:
     - `TERRAFORM_ORG`: The Terraform Cloud organization.

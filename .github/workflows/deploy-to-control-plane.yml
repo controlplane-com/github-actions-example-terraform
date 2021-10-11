@@ -33,27 +33,27 @@ jobs:
         if: ${{ github.ref == 'refs/heads/dev' }}
         uses: ./.github/actions/inputs
         with:
-          org: ORG_NAME
+          org: ${{ secrets.CPLN_ORG }}
           token: ${{ secrets.CPLN_TOKEN }}
-          control_plane_terraform_version: 1.0.0
-          gvc: dev-gvc
-          workload: dev-workload
-          image: IMAGE_NAME_DEV_BRANCH
+          control_plane_terraform_version: ${{ secrets.TF_PROVIDER_VERSION }}
+          gvc: ${{ secrets.CPLN_GVC_DEV }}
+          workload: ${{ secrets.CPLN_WORKLOAD_DEV }}
+          image: ${{ secrets.CPLN_IMAGE_NAME_DEV }}
           tag: $(git rev-parse --short HEAD)
-          terraform_workspace: dev
+          terraform_workspace: ${{ secrets.TF_WORKSPACE_DEV }}
 
       - name: Run input action for main branch
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: ./.github/actions/inputs
         with:
-          org: ORG_NAME
+          org: ${{ secrets.CPLN_ORG }}
           token: ${{ secrets.CPLN_TOKEN }}
-          control_plane_terraform_version: 1.0.0
-          gvc: main-gvc
-          workload: main-workload
-          image: IMAGE_NAME_MAIN_BRANCH
+          control_plane_terraform_version: ${{ secrets.TF_PROVIDER_VERSION }}
+          gvc: ${{ secrets.CPLN_GVC_MAIN }}
+          workload: ${{ secrets.CPLN_WORKLOAD_MAIN }}
+          image: ${{ secrets.CPLN_IMAGE_NAME_MAIN }}
           tag: $(git rev-parse --short HEAD)
-          terraform_workspace: main
+          terraform_workspace: ${{ secrets.TF_WORKSPACE_MAIN }}
 
       - name: Containerize application and push image to Control Plane
         if: ${{ github.event.inputs.apply == 'true' }}
