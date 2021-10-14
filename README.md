@@ -2,7 +2,7 @@
 
 This example demonstrates building and deploying an app to Control Plane using Terraform as part of a GitHub Action.
 
-The sample is a Node.js app that displays the environment variables and start-up arguments.
+The example is a Node.js app that displays the environment variables and start-up arguments.
 
 Terraform requires the current state be persisted between deployments. This example uses [Terraform Cloud](https://app.terraform.io/) to manage the state.
 
@@ -79,11 +79,11 @@ Browse to the Secrets page by clicking `Settings` (top menu bar), then `Secrets`
 - `TF_PROVIDER_VERSION`: The version number of the Control Plane Terraform Provider (Current version is: 1.0.1).
 - `TF_CLOUD_TOKEN`: Terraform Cloud Authentication Token (from the `Terraform Cloud Set Up` section).
 
-3. Review, update and commit the `.github/workflows/deploy-to-control-plane.yml` file:
+3. Review the `.github/workflows/deploy-to-control-plane.yml` file:
     - Line 9: Uncomment and update with the action (e.g., push, pull request, etc.) and branch names (e.g., dev, main, etc.) this workflow will trigger on.
     - Lines 33 and 46: Update the branch names to match line 9.
 
-4. Review, update and commit the Terraform HCL file located at `/terraform/terraform.tf` using the values that were created in the `Terraform Cloud Set Up` section:
+4. Review the Terraform HCL file located at `/terraform/terraform.tf` using the values that were created in the `Terraform Cloud Set Up` section:
     - `TERRAFORM_ORG`: The Terraform Cloud organization.
     - `WORKSPACE_PREFIX`: The Terraform Workspace Prefix. Only enter the prefix. Terraform will automatically append the value of the `TF_WORKLOAD` environment variable that was set in the action when pushing the state to the Terraform cloud. This comes in handy when deploying to multiple branches as each branch will have its own workspace (hosting the state) within the Terraform Cloud. 
 
