@@ -36,9 +36,9 @@ The Terraform provider and Control Plane CLI require a `Service Account` with th
 2. Add the Service Account to the `superusers` group. Once the GitHub Actions executes as expected, a policy can be created with a limited set of permissions and the Service Account can be removed from the `superusers` group.
   
 
-## Example Overview and Set Up
+## Example Set Up
 
-When triggered, the GitHub action will execute the steps defined in the workload file located at `.github/workflow/deploy-to-control-plane.yml`. The workflow will generate a Terraform plan based on the HCL in the `/terraform/terraform.tf` file. The HCL will create/update a GVC and workload hosted at Control Plane. After the plan has been reviewed, the action needs to be manually triggered with the apply flag set to `true`. This apply flag will execute the steps that will containerize and push the application to the org's private image repository and apply the Terraform plan. 
+When triggered, the GitHub action will execute the steps defined in the workload file located at `.github/workflow/deploy-to-control-plane.yml`. The workflow will generate a Terraform plan based on the HCL in the `/terraform/terraform.tf` file. The HCL will create/update a GVC and workload hosted at Control Plane. After the plan has been reviewed by the user, the action needs to be manually triggered with the apply flag set to `true`. This apply flag will execute the steps that will containerize and push the application to the org's private image repository and apply the Terraform plan. 
 
 The action file `.github/actions/inputs/action.yml`, is used by the workflow file to configure the pipeline based on the branch and input variables (which are configured as repository secrets). This can be used to deploy multiple branches as individual GVCs/workloads to Control Plane.
 
@@ -64,7 +64,8 @@ The action sets the environment variables used by the variables (prefixed with `
 
 2. The following variables are required and must be added as GitHub repository secrets.
 
-Browse to the Secrets page by clicking `Settings` (top menu bar), then `Secrets` (left menu bar).
+Browse to the Secrets page by:
+- Clicking `Settings` (top menu bar), then `Secrets` (left menu bar).
 
 - `CPLN_ORG`: Control Plane org.
 - `CPLN_TOKEN`: Service Account Key.
@@ -83,11 +84,11 @@ Browse to the Secrets page by clicking `Settings` (top menu bar), then `Secrets`
     - Line 9: Uncomment and update with the action (e.g., push, pull request, etc.) and branch names (e.g., dev, main, etc.) this workflow will trigger on.
     - Lines 33 and 46: Update the branch names to match line 9.
 
-4. Review the Terraform HCL file located at `/terraform/terraform.tf` using the values that were created in the `Terraform Cloud Set Up` section:
+4. Update the Terraform HCL file located at `/terraform/terraform.tf` using the values that were created in the `Terraform Cloud Set Up` section:
     - `TERRAFORM_ORG`: The Terraform Cloud organization.
     - `WORKSPACE_PREFIX`: The Terraform Workspace Prefix. Only enter the prefix. Terraform will automatically append the value of the `TF_WORKLOAD` environment variable that was set in the action when pushing the state to the Terraform cloud. This comes in handy when deploying to multiple branches as each branch will have its own workspace (hosting the state) within the Terraform Cloud. 
 
-5. The file `/terraform/.terraformrc` must be included to allow Terraform to authenticate to their cloud service. No modification is necessary. The workflow will update the credentials during execution using the `sed` command on line 71.
+5. The file `/terraform/.terraformrc` must be included to allow Terraform to authenticate to their cloud service. No modification is necessary. The pipeline will update the credentials during execution with the value of the `TF_CLOUD_TOKEN` environment variable.
 
 **To manually trigger the GitHub action:**
 
@@ -106,7 +107,7 @@ After the Github Action has successfully deployed the application, it can be tes
 1. Browse to the Control Plane Console.
 2. Select the GVC that corresponds to the branch that was deployed.
 3. Select the workload that corresponds to the branch that was deployed.
-4. Click the `Open` button. The app will open in a new tab. The containers' environment variables and start up arguments will be displayed.
+4. Click the `Open` button. The app will open in a new tab. The container's environment variables and start up arguments will be displayed.
 
 
 ## Helper Links
