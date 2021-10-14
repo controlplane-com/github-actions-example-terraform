@@ -22,7 +22,7 @@ Follow these instructions to set up an account and workspace at Terraform Cloud:
    - Click the `Settings` button in the top menu, then click the `General` button.
    - Click the `Local` radio button, then click the `Save Settings` button at the bottom of the page.
 
-5. Create an API token:
+5. Create an API token.
     - Click on your user profile (upper right corner) and click `User settings`.
     - Click Tokens on the left side menu.
     - Click `Create an API token`, enter a description, and click `Create API token`.
@@ -65,8 +65,7 @@ The action sets the environment variables used by the variables (prefixed with `
 2. The following variables are required and must be added as GitHub repository secrets.
 
 ```
-Browse to the Secrets page by:
-- Clicking `Settings` (top menu bar), then `Secrets` (left menu bar).
+Browse to the Secrets page by clicking `Settings` (top menu bar), then `Secrets` (left menu bar).
 ```
 
 - `CPLN_ORG`: Control Plane org.
