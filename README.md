@@ -64,8 +64,10 @@ The action sets the environment variables used by the variables (prefixed with `
 
 2. The following variables are required and must be added as GitHub repository secrets.
 
+--
 Browse to the Secrets page by:
 - Clicking `Settings` (top menu bar), then `Secrets` (left menu bar).
+--
 
 - `CPLN_ORG`: Control Plane org.
 - `CPLN_TOKEN`: Service Account Key.
