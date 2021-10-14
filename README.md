@@ -1,6 +1,6 @@
 # Control Plane - GitHub Actions Example Using Terraform
 
-This example demonstrates building and deploying an app to Control Plane using Terraform as part of a CI/CD pipeline.
+This example demonstrates building and deploying an app to Control Plane using Terraform as part of a GitHub Action.
 
 The sample is a Node.js app that displays the environment variables and start-up arguments.
 
