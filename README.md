@@ -23,10 +23,10 @@ Follow these instructions to set up an account and workspace at Terraform Cloud:
    - Click the `Local` radio button, then click the `Save Settings` button at the bottom of the page.
 
 5. Create an API token.
-    - Click on your user profile (upper right corner) and click `User settings`.
-    - Click Tokens on the left side menu.
-    - Click `Create an API token`, enter a description, and click `Create API token`.
-    - Keep a note of the token. It will be used in the example set up section.
+   - Click on your user profile (upper right corner) and click `User settings`.
+   - Click Tokens on the left side menu.
+   - Click `Create an API token`, enter a description, and click `Create API token`.
+   - Keep a note of the token. It will be used in the example set up section.
 
 ## Control Plane Authentication Set Up 
 
@@ -35,7 +35,6 @@ The Terraform provider and Control Plane CLI require a `Service Account` with th
 1. Follow the Control Plane documentation to create a Service Account and create a key. Take a note of the key. It will be used in the next section.
 2. Add the Service Account to the `superusers` group. Once the GitHub Actions executes as expected, a policy can be created with a limited set of permissions and the Service Account can be removed from the `superusers` group.
   
-
 ## Example Set Up
 
 When triggered, the GitHub action will execute the steps defined in the workload file located at `.github/workflow/deploy-to-control-plane.yml`. The workflow will generate a Terraform plan based on the HCL in the `/terraform/terraform.tf` file. The HCL will create/update a GVC and workload hosted at Control Plane. After the plan has been reviewed by the user, the action needs to be manually triggered with the apply flag set to `true`. This apply flag will execute the steps that will containerize and push the application to the org's private image repository and apply the Terraform plan. 
@@ -68,6 +67,8 @@ The action sets the environment variables used by the variables (prefixed with `
 Browse to the Secrets page by clicking `Settings` (top menu bar), then `Secrets` (left menu bar).
 ```
 
+Add the following variables:
+
 - `CPLN_ORG`: Control Plane org.
 - `CPLN_TOKEN`: Service Account Key.
 - `CPLN_GVC_DEV`: The name of the GVC for the `dev` branch.
@@ -82,8 +83,8 @@ Browse to the Secrets page by clicking `Settings` (top menu bar), then `Secrets`
 - `TF_CLOUD_TOKEN`: Terraform Cloud Authentication Token (from the `Terraform Cloud Set Up` section).
 
 3. Review the `.github/workflows/deploy-to-control-plane.yml` file:
-    - Line 9: Uncomment and update with the action (e.g., push, pull request, etc.) and branch names (e.g., dev, main, etc.) this workflow will trigger on.
-    - Lines 33 and 46: Update the branch names to match line 9.
+    - The workflow can be updated to be triggered on specific branches and actions (pushes, pull requests, etc.). The example is set to trigger on a push to the `main` and `dev` branch on lines 8-9 (currently commented out).
+    - Lines 33 and 46: If necessary, update the branch names to match line 9.
 
 4. Update the Terraform HCL file located at `/terraform/terraform.tf` using the values that were created in the `Terraform Cloud Set Up` section:
     - `TERRAFORM_ORG`: The Terraform Cloud organization.
@@ -106,8 +107,8 @@ Browse to the Secrets page by clicking `Settings` (top menu bar), then `Secrets`
 After the Github Action has successfully deployed the application, it can be tested by following these steps:
 
 1. Browse to the Control Plane Console.
-2. Select the GVC that corresponds to the branch that was deployed.
-3. Select the workload that corresponds to the branch that was deployed.
+2. Select the GVC name that corresponds to the branch that was deployed.
+3. Select the workload name that corresponds to the branch that was deployed.
 4. Click the `Open` button. The app will open in a new tab. The container's environment variables and start up arguments will be displayed.
 
 
