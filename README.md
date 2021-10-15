@@ -111,6 +111,14 @@ After the Github Action has successfully deployed the application, it can be tes
 3. Select the workload name that corresponds to the branch that was deployed.
 4. Click the `Open` button. The app will open in a new tab. The container's environment variables and start up arguments will be displayed.
 
+## Upgrading Provider Version
+
+1. Update the `TF_PROVIDER_VERSION` repository secret with the desired provider version.
+2. Update the version property inside the HCL file that contains the `required_providers` declaration block for the `cpln` provider. 
+3. The example workflow runs the command `terraform init -upgrade` which will upgrade the Terraform dependencies (state file, etc.).
+
+Note: If necessary, the provider version can be downgraded.
+
 
 ## Helper Links
 

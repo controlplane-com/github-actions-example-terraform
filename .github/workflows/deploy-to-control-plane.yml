@@ -79,7 +79,7 @@ jobs:
         id: init
         shell: bash
         working-directory: ./terraform
-        run: terraform init
+        run: terraform init -upgrade
 
       # Validate Terraform configuration
       - name: Terraform Validate
