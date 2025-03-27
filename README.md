@@ -23,7 +23,7 @@ Follow these instructions to set up an account and workspace at Terraform Cloud:
    - Click the `Local` radio button, then click the `Save Settings` button at the bottom of the page.
 
 5. Create an API token.
-   - Click on your user profile (upper right corner) and click `User settings`.
+   - Click on your user profile (upper right corner) and click `Account settings`.
    - Click Tokens on the left side menu.
    - Click `Create an API token`, enter a description, and click `Create API token`.
    - Keep a note of the token. It will be used in the example set up section.
